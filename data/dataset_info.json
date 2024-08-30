@@ -1,4 +1,104 @@
 {
+  "v2_ac_train_LL-100": {
+    "file_name": "v2_ac_train_LL-100_TRAINING.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+  "preempt_v2_ac_train_LL-100": {
+    "file_name": "/net/nfs.cirrascale/prior/piperw/v2_ac_train_LL-100_TRAINING.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+
+  "v2_ac_train_LL-1000": {
+    "file_name": "v2_ac_train_LL-1000_TRAINING.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+  "v2_ac_train_LL-10000": {
+    "file_name": "v2_ac_train_LL-10000_TRAINING.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+  "v2_ac_train_LL-all": {
+    "file_name": "v2_ac_train_LL-all_TRAINING.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+  "v2_ac_val_LL": {
+    "file_name": "v2_ac_val_LL_TRAINING.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+  "preempt_v2_ac_val_LL": {
+    "file_name": "/net/nfs.cirrascale/prior/piperw/v2_ac_val_LL_TRAINING.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+
   "mm_ac_train_LL-1000": {
     "file_name": "mm_ac_train_LL-1000.json",
     "formatting": "sharegpt",

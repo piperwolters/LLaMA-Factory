@@ -57,3 +57,6 @@ EXPOSE 7860
 # Expose port 8000 for the API service
 ENV API_PORT 8000
 EXPOSE 8000
+
+# The -l flag makes bash act as a login shell and load /etc/profile, etc.
+ENTRYPOINT ["bash", "-l"]

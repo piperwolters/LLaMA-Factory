@@ -37,6 +37,10 @@ class DataArguments:
         default=None,
         metadata={"help": "The name of dataset(s) to use for evaluation. Use commas to separate multiple datasets."},
     )
+    preemptible: bool = field(
+        default=False,
+        metadata={"help": "Whether or not job is preemptible aka whether or not to use the NFS path."},
+    )
     dataset_dir: str = field(
         default="data",
         metadata={"help": "Path to the folder containing the datasets."},
@@ -115,6 +119,11 @@ class DataArguments:
             if isinstance(arg, str):
                 return [item.strip() for item in arg.split(",")]
             return arg
+
+        #if self.preemptible:
+        #self.dataset = '/net/nfs.cirrascale/prior/piperw/' + self.dataset
+        #self.eval_dataset = '/net/nfs.cirrascale/prior/piperw/' + self.eval_dataset
+        #print("PREEMPTIBLE=", self.preemptible, " ...datasets:", self.dataset, " & ", self.eval_dataset)
 
         self.dataset = split_arg(self.dataset)
         self.eval_dataset = split_arg(self.eval_dataset)
