@@ -182,6 +182,11 @@ def _get_preprocessed_dataset(
 
     dataset = dataset.map(preprocess_func, batched=True, remove_columns=column_names, **kwargs)
 
+    def count_tokens(example):
+        num_tokens = len(example['input_ids'])
+        print("NUM TOKENS...", num_tokens)
+    dataset.map(count_tokens)
+
     if training_args.should_log:
         try:
             print("eval example:" if is_eval else "training example:")

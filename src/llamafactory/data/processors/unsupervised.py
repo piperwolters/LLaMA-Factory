@@ -12,12 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from collections import defaultdict
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Sequence, Tuple
 
 from ...extras.logging import get_logger
 from ..data_utils import Role
-from .processor_utils import infer_seqlen
+from .processor_utils import get_paligemma_token_type_ids, get_pixel_values, infer_seqlen
 
 
 if TYPE_CHECKING:
@@ -40,6 +39,9 @@ def _encode_unsupervised_example(
     processor: Optional["ProcessorMixin"],
     cutoff_len: int,
 ) -> Tuple[List[int], List[int]]:
+    if processor is not None and not hasattr(processor, "image_seq_length"):  # llava-like models
+        prompt[0]["content"] = template.image_token + prompt[0]["content"]
+
     if len(response) == 1:
         messages = prompt + response
     else:
@@ -49,7 +51,10 @@ def _encode_unsupervised_example(
     if template.efficient_eos:
         labels += [tokenizer.eos_token_id]
 
-    input_ids, _ = template.mm_plugin.process_token_ids(input_ids, None, tokenizer, processor)
+    if processor is not None and hasattr(processor, "image_seq_length"):  # paligemma models
+        image_token_id = tokenizer.convert_tokens_to_ids(template.image_token)
+        input_ids = [image_token_id] * getattr(processor, "image_seq_length") + input_ids
+
     source_len, target_len = infer_seqlen(len(input_ids), len(labels), cutoff_len)
     input_ids = input_ids[:source_len]
     labels = labels[:target_len]
@@ -62,17 +67,21 @@ def preprocess_unsupervised_dataset(
     tokenizer: "PreTrainedTokenizer",
     processor: Optional["ProcessorMixin"],
     data_args: "DataArguments",
-) -> Dict[str, List[Any]]:
+) -> Dict[str, List[List[int]]]:
     # build inputs with format `<bos> X` and labels with format `Y <eos>`
-    model_inputs = defaultdict(list)
+    model_inputs = {"input_ids": [], "attention_mask": [], "labels": []}
+    if processor is not None:
+        model_inputs["pixel_values"] = []
+        if hasattr(processor, "image_seq_length"):  # paligemma models
+            model_inputs["token_type_ids"] = []
+
     for i in range(len(examples["prompt"])):
         if len(examples["prompt"][i]) % 2 != 1:
             logger.warning("Dropped invalid example: {}".format(examples["prompt"][i] + examples["response"][i]))
             continue
 
-        prompt = template.mm_plugin.process_messages(examples["prompt"][i], examples["images"][i], processor)
         input_ids, labels = _encode_unsupervised_example(
-            prompt=prompt,
+            prompt=examples["prompt"][i],
             response=examples["response"][i],
             system=examples["system"][i],
             tools=examples["tools"][i],
@@ -84,12 +93,10 @@ def preprocess_unsupervised_dataset(
         model_inputs["input_ids"].append(input_ids)
         model_inputs["attention_mask"].append([1] * len(input_ids))
         model_inputs["labels"].append(labels)
-        template.mm_plugin.process_model_inputs(
-            model_inputs=model_inputs,
-            images=examples["images"][i],
-            feature_seqlens={"token_type_ids": len(input_ids)},
-            processor=processor,
-        )
+        if processor is not None:
+            model_inputs["pixel_values"].append(get_pixel_values(examples["images"][i], processor))
+            if hasattr(processor, "image_seq_length"):  # paligemma models
+                model_inputs["token_type_ids"].append(get_paligemma_token_type_ids(len(input_ids), processor))
 
     return model_inputs
 

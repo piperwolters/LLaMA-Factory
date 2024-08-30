@@ -40,6 +40,7 @@ def _start_background_loop(loop: "asyncio.AbstractEventLoop") -> None:
 class ChatModel:
     def __init__(self, args: Optional[Dict[str, Any]] = None) -> None:
         model_args, data_args, finetuning_args, generating_args = get_infer_args(args)
+        print("model_args.infer_backend:", model_args.infer_backend)
         if model_args.infer_backend == "huggingface":
             self.engine: "BaseEngine" = HuggingfaceEngine(model_args, data_args, finetuning_args, generating_args)
         elif model_args.infer_backend == "vllm":

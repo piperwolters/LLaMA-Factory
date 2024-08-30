@@ -117,10 +117,6 @@ class ModelArguments:
         default=False,
         metadata={"help": "Whether or not to use unsloth's optimization for the LoRA training."},
     )
-    enable_liger_kernel: bool = field(
-        default=False,
-        metadata={"help": "Whether or not to enable liger kernel for faster training."},
-    )
     visual_inputs: bool = field(
         default=False,
         metadata={"help": "Whethor or not to use multimodal LLM that accepts visual inputs."},

@@ -27,7 +27,7 @@ from transformers import Seq2SeqTrainer
 from ...extras.constants import IGNORE_INDEX
 from ...extras.logging import get_logger
 from ..callbacks import PissaConvertCallback, SaveProcessorCallback
-from ..trainer_utils import create_custom_optimizer, create_custom_scheduler
+from ..trainer_utils import create_custom_optimzer, create_custom_scheduler
 
 
 if TYPE_CHECKING:
@@ -66,7 +66,7 @@ class CustomSeq2SeqTrainer(Seq2SeqTrainer):
 
     def create_optimizer(self) -> "torch.optim.Optimizer":
         if self.optimizer is None:
-            self.optimizer = create_custom_optimizer(self.model, self.args, self.finetuning_args)
+            self.optimizer = create_custom_optimzer(self.model, self.args, self.finetuning_args)
         return super().create_optimizer()
 
     def create_scheduler(
@@ -78,16 +78,18 @@ class CustomSeq2SeqTrainer(Seq2SeqTrainer):
     def prediction_step(
         self,
         model: "torch.nn.Module",
-        inputs: Dict[str, Union["torch.Tensor", Any]],
+        inputs: Dict[str, Union[torch.Tensor, Any]],
         prediction_loss_only: bool,
         ignore_keys: Optional[List[str]] = None,
-    ) -> Tuple[Optional[float], Optional["torch.Tensor"], Optional["torch.Tensor"]]:
+    ) -> Tuple[Optional[float], Optional[torch.Tensor], Optional[torch.Tensor]]:
         r"""
         Removes the prompt part in the generated tokens.
 
         Subclass and override to inject custom behavior.
         """
-        labels = inputs["labels"].detach().clone().cpu() if "labels" in inputs else None  # backup labels (d2h)
+        #print("IN prediction_step of sft trainer.")
+
+        labels = inputs["labels"].detach().clone() if "labels" in inputs else None  # backup labels
         if self.args.predict_with_generate:
             assert self.tokenizer.padding_side == "left", "This method only accepts left-padded tensor."
             prompt_len, label_len = inputs["input_ids"].size(-1), inputs["labels"].size(-1)
@@ -101,11 +103,11 @@ class CustomSeq2SeqTrainer(Seq2SeqTrainer):
         )
         if generated_tokens is not None and self.args.predict_with_generate:
             generated_tokens[:, :prompt_len] = self.tokenizer.pad_token_id
-            generated_tokens = generated_tokens.contiguous().cpu()  # d2h
+            generated_tokens = generated_tokens.contiguous()
 
         return loss, generated_tokens, labels
 
-    def _pad_tensors_to_target_len(self, src_tensor: "torch.Tensor", tgt_tensor: "torch.Tensor") -> "torch.Tensor":
+    def _pad_tensors_to_target_len(self, src_tensor: torch.Tensor, tgt_tensor: torch.Tensor) -> torch.Tensor:
         r"""
         Pads the tensor to the same length as the target tensor.
         """
@@ -122,6 +124,8 @@ class CustomSeq2SeqTrainer(Seq2SeqTrainer):
         """
         if not self.is_world_process_zero():
             return
+
+        #print("IN save_predictions of sft trainer.")
 
         output_prediction_file = os.path.join(self.args.output_dir, "generated_predictions.jsonl")
         logger.info(f"Saving prediction results to {output_prediction_file}")

@@ -33,7 +33,6 @@ llamafactory-cli train examples/train_lora/llama3_lora_sft.yaml
 
 ```bash
 llamafactory-cli train examples/train_lora/llava1_5_lora_sft.yaml
-llamafactory-cli train examples/train_lora/qwen2vl_lora_sft.yaml
 ```
 
 #### Reward Modeling
@@ -134,12 +133,6 @@ FORCE_TORCHRUN=1 NNODES=2 RANK=0 MASTER_ADDR=192.168.0.1 MASTER_PORT=29500 llama
 FORCE_TORCHRUN=1 NNODES=2 RANK=1 MASTER_ADDR=192.168.0.1 MASTER_PORT=29500 llamafactory-cli train examples/train_full/llama3_full_sft_ds3.yaml
 ```
 
-#### Multimodal Supervised Fine-Tuning
-
-```bash
-FORCE_TORCHRUN=1 llamafactory-cli train examples/train_full/qwen2vl_full_sft.yaml
-```
-
 #### Batch Predicting and Computing BLEU and ROUGE Scores
 
 ```bash
@@ -194,12 +187,6 @@ llamafactory-cli train examples/extras/galore/llama3_full_sft.yaml
 
 ```bash
 llamafactory-cli train examples/extras/badam/llama3_full_sft.yaml
-```
-
-#### Full-Parameter Fine-Tuning using Adam-mini
-
-```bash
-llamafactory-cli train examples/extras/adam_mini/qwen2_full_sft.yaml
 ```
 
 #### LoRA+ Fine-Tuning

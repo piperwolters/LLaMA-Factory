@@ -25,7 +25,7 @@ from transformers import Trainer
 
 from ...extras.logging import get_logger
 from ..callbacks import FixValueHeadModelCallback, PissaConvertCallback, SaveProcessorCallback
-from ..trainer_utils import create_custom_optimizer, create_custom_scheduler
+from ..trainer_utils import create_custom_optimzer, create_custom_scheduler
 
 
 if TYPE_CHECKING:
@@ -65,7 +65,7 @@ class PairwiseTrainer(Trainer):
 
     def create_optimizer(self) -> "torch.optim.Optimizer":
         if self.optimizer is None:
-            self.optimizer = create_custom_optimizer(self.model, self.args, self.finetuning_args)
+            self.optimizer = create_custom_optimzer(self.model, self.args, self.finetuning_args)
         return super().create_optimizer()
 
     def create_scheduler(
@@ -75,8 +75,8 @@ class PairwiseTrainer(Trainer):
         return super().create_scheduler(num_training_steps, optimizer)
 
     def compute_loss(
-        self, model: "PreTrainedModel", inputs: Dict[str, "torch.Tensor"], return_outputs: bool = False
-    ) -> Union["torch.Tensor", Tuple["torch.Tensor", List["torch.Tensor"]]]:
+        self, model: "PreTrainedModel", inputs: Dict[str, torch.Tensor], return_outputs: bool = False
+    ) -> Union[torch.Tensor, Tuple[torch.Tensor, List[torch.Tensor]]]:
         r"""
         Computes pairwise loss. The first n examples are chosen and the last n examples are rejected.
 
