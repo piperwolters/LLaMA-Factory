@@ -91,7 +91,7 @@ def run_sft(
 
     # Training
     if training_args.do_train:
-        if len(os.listdir(args.output_dir)) == 0:
+        if len(os.listdir(training_args.output_dir)) == 0:
             resume_from_checkpoint = False
         else: 
             resume_from_checkpoint=training_args.resume_from_checkpoint
