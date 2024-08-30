@@ -210,7 +210,7 @@ def _register_template(
     image_token: str = "<image>",
     efficient_eos: bool = False,
     replace_eos: bool = False,
-    mm_plugin: "BasePlugin" = get_mm_plugin(name="base", image_token=IMAGE_PLACEHOLDER),
+    #mm_plugin: "BasePlugin" = get_mm_plugin(name="base", image_token=IMAGE_PLACEHOLDER),
 ) -> None:
     r"""
     Registers a chat template.

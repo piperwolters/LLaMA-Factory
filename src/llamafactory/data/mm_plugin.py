@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Any, Dict, List, Optional, Sequence, Tuple
 from PIL.Image import Image
 from transformers import ProcessorMixin
 
-from ..extras.constants import IGNORE_INDEX, IMAGE_PLACEHOLDER
+#from ..extras.constants import IGNORE_INDEX, IMAGE_PLACEHOLDER
 from ..extras.packages import is_pillow_available
 
 
