@@ -6,3 +6,4 @@ huggingface-cli login --token "$PIPERW_HF_TOKEN"
 wandb login "$PIPERW_WANDB_TOKEN"
 pip install -r requirements.txt
 python setup.py install
+export WANDB_PROJECT='osagent'
