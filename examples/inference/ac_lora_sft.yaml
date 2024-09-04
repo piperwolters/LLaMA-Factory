@@ -1,6 +1,6 @@
 model_name_or_path: meta-llama/Meta-Llama-3-8B-Instruct
 #model_name_or_path: llava-hf/llava-1.5-7b-hf
 #visual_inputs: true
-adapter_name_or_path: /data/piperw/projects/LLaMA-Factory/saves/aug29_ac_train_LL-1000-8bits-r64/checkpoint-4600
+adapter_name_or_path: /data/piperw/projects/LLaMA-Factory/saves/aug30_v2_ac_train_LL-all/checkpoint-13000
 template: llama3
 finetuning_type: lora
