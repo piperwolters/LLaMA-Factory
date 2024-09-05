@@ -1,6 +1,7 @@
 import re
 import base64
 import torch
+import numpy as np
 from io import BytesIO
 from PIL import Image, ImageDraw, ImageOps
 
@@ -52,6 +53,7 @@ def save_html(results, output_path):
         model_coordinates = parse_coordinates(result['model_output'])
 
         before_image = Image.open(result['screenshot'])
+        #before_image = Image.fromarray(np.ones((224, 224, 3), dtype=np.uint8) * 255)
         size = before_image.size
 
         # Draw colored points on before_image for target_coordinates and model_coordinates
