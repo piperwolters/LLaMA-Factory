@@ -13,8 +13,7 @@ client = OpenAI(
         )
 
 # Load in a dataset json and format messages for the model api.
-#json_file = open('/data/piperw/projects/LLaMA-Factory/data/ac/ac_val_LL.json')
-json_file = open('/data/piperw/projects/LLaMA-Factory/data/ac/ac_zeroshot_val_LL.json')
+json_file = open('/data/piperw/projects/LLaMA-Factory/data/v2_ac_val_LL.json')
 data = json.load(json_file)
 
 results = []
@@ -47,7 +46,7 @@ for i,dp in enumerate(data):
     chat_response = client.chat.completions.create(
         model="gpt-4-turbo",
         messages=messages,
-        temperature=0.1,
+        temperature=0.0,
         max_tokens=20
     )
 
@@ -76,4 +75,4 @@ print("Step-wise accuracy using smallest:", accuracy)
 for r,result in enumerate(results):
     result['metric'] = corrects[r]
 
-save_html(results, 'aug23_gpt4_ac_zeroshot_val_LL.html')
+#save_html(results, 'aug23_gpt4_ac_zeroshot_val_LL.html')

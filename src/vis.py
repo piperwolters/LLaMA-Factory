@@ -9,7 +9,9 @@ from PIL import Image, ImageDraw, ImageOps
 # Given a dictionary containing various inputs, outputs, and metadata, generate
 # an HTML that organizes this information in a datapoint-per-row manner. 
 # NOTE: can and is often edited for specific visualization needs.
-def save_html(results, output_path):
+# It is expected that results are in the original screenshot WxH space, not the resized&padded.
+# codebase=llama,hf,or mmolmo
+def save_html(results, output_path, codebase='llama'):
     html_content = """
     <html>
     <head>
@@ -68,13 +70,21 @@ def save_html(results, output_path):
         # Draw colored points on before_image for target_coordinates and model_coordinates
         max_x, max_y = int(result['dims'][0]), int(result['dims'][1])
         for coord in target_coordinates:
-            mapped_x = map_coordinates(coord[0], 0, max_x, 0, size[0])
-            mapped_y = map_coordinates(coord[1], 0, max_y, 0, size[1])
+            if codebase == 'mmolmo':
+                mapped_x = coord[0]
+                mapped_y = coord[1]
+            else:
+                mapped_x = map_coordinates(coord[0], 0, max_x, 0, size[0])
+                mapped_y = map_coordinates(coord[1], 0, max_y, 0, size[1])
             draw_before.rectangle([mapped_x-10, mapped_y-10, mapped_x+10, mapped_y+10], fill='red')
 
         for coord in model_coordinates:
-            mapped_x = map_coordinates(coord[0], 0, max_x, 0, size[0])
-            mapped_y = map_coordinates(coord[1], 0, max_y, 0, size[1])
+            if codebase == 'mmolmo':
+                mapped_x = coord[0]
+                mapped_y = coord[1]
+            else:
+                mapped_x = map_coordinates(coord[0], 0, max_x, 0, size[0])
+                mapped_y = map_coordinates(coord[1], 0, max_y, 0, size[1])
             draw_before.rectangle([mapped_x-10, mapped_y-10, mapped_x+10, mapped_y+10], fill='blue')
 
         # Convert images back to base64 for HTML embedding
