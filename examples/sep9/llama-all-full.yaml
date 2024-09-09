@@ -7,8 +7,8 @@ do_train: true
 finetuning_type: full
 
 ### dataset
-dataset: preempt_v2_ac_train_LL-all
-eval_dataset: preempt_v2_ac_val_LL
+dataset: weka_v2_ac_train_LL-all
+eval_dataset: weka_v2_ac_val_LL
 template: llama3
 cutoff_len: 4096
 overwrite_cache: true

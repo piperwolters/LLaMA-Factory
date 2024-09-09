@@ -157,6 +157,20 @@
       "system_tag": "system"
     }
   },
+  "weka_v2_ac_val_LL": {
+    "file_name": "/weka/prior-default/piperw/v2_ac_val_LL_TRAINING.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
 
   "mm_ac_train_LL-1000": {
     "file_name": "mm_ac_train_LL-1000.json",
