@@ -16,7 +16,7 @@ client = OpenAI(
 )
 
 # Load in a dataset json and format messages for the model api.
-train_file = open('/data/piperw/projects/LLaMA-Factory/data/v2_ac_train_LL-100.json')
+train_file = open('/data/piperw/projects/LLaMA-Factory/data/v2_ac_train_LL-1000.json')
 val_file = open('/data/piperw/projects/LLaMA-Factory/data/v2_ac_val_LL.json')
 test_file = open('/data/piperw/projects/LLaMA-Factory/data/v2_ac_test_IDD_LL.json')
 
@@ -88,4 +88,7 @@ for j,json_file in enumerate(json_files):
 
     for r,result in enumerate(results):
         result['metric'] = corrects[r]
-    #save_html(results, 'vis/sep5/ac_' + split + '_Llamaall-ckpt19000.html')
+
+    save_dir = 'vis/sep9/'
+    os.makedirs(save_dir, exist_ok=True)
+    save_html(results, save_dir + 'ac_' + split + '_Llamaall-bs256-ckpt11700.html')

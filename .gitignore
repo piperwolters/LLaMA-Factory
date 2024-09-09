@@ -169,3 +169,6 @@ output/
 wandb/
 
 **/vis/
+data/*.json
+**/*.html
+beaker/
