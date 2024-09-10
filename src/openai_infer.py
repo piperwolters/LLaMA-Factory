@@ -91,4 +91,4 @@ for j,json_file in enumerate(json_files):
 
     save_dir = 'vis/sep9/'
     os.makedirs(save_dir, exist_ok=True)
-    save_html(results, save_dir + 'ac_' + split + '_Llamaall-bs256-ckpt11700.html')
+    save_html(results, save_dir + 'ac_' + split + '_Llamaall-bs128-ckpt12500.html')
