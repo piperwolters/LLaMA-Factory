@@ -1,6 +1,9 @@
 import re
 
-from bb_utils import extract_app_bb, extract_bbs_from_a11y, find_gt_box, within_bounding_box
+def within_bounding_box(coords, box):
+    x, y = int(coords[0]), int(coords[1])
+    x1, y1, x2, y2 = box
+    return x1 <= x <= x2 and y1 <= y <= y2
 
 # Metric function aiming to replicate the step-wise accuracy as described in Appendix D.3 of
 # the AndroidControl paper. Very specific to the action space and edge cases in that dataset.
@@ -83,7 +86,7 @@ def compute_stepwise_accuracy(ground_truth, predictions, target_bbs):
         else:
             # Consider open_app and click on app name equivalent
             if pred_parsed["type"] == "click" and gt_parsed["type"] == "open_app":
-                if gt_box != None and "coords" in pred_parsed:
+                if gt_box not in ['', None] and "coords" in pred_parsed:
                     if within_bounding_box(pred_parsed['coords'], gt_box):
                         correct_predictions += 1
                         metric = 'correct'

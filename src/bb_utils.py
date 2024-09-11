@@ -67,7 +67,7 @@ def extract_app_bb(input_string, search_text="text=Note"):
             right = center_x + width // 2
             bottom = center_y + height // 2
             return (left, top, right, bottom)
-    return None
+    return ''
 
 # Given the target coordinates of a click or longpress action and a list of
 # bounding boxes and their center coordinates and size for the current screen,
