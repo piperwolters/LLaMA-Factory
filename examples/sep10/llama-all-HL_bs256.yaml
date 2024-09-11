@@ -12,8 +12,8 @@ lora_target: all
 lora_rank: 64
 
 ### dataset
-dataset: preempt_v2_ac_train_HL-all
-eval_dataset: preempt_v2_ac_val_HL
+dataset: weka_v2_ac_train_HL-all
+eval_dataset: weka_v2_ac_val_HL
 template: llama3
 cutoff_len: 4096
 overwrite_cache: true
