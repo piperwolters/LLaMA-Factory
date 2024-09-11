@@ -20,7 +20,7 @@ overwrite_cache: true
 preprocessing_num_workers: 16
 
 ### output
-output_dir: /results/saves/sep11_ac_train_HL-all_bs128/  # make sure to prefix /results when running with gantry
+output_dir: /results/saves/sep11_ac_train_HL-all_bs256/  # make sure to prefix /results when running with gantry
 logging_steps: 10
 save_steps: 100
 plot_loss: true
@@ -45,6 +45,6 @@ eval_strategy: steps
 eval_steps: 100
 
 report_to: wandb
-run_name: sep11_ac_train_HL-all_bs128
+run_name: sep11_ac_train_HL-all_bs256
 
 
