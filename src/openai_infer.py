@@ -20,8 +20,8 @@ train_file = open('/data/piperw/projects/LLaMA-Factory/data/v2_ac_train_LL-1000.
 val_file = open('/data/piperw/projects/LLaMA-Factory/data/v2_ac_val_LL.json')
 test_file = open('/data/piperw/projects/LLaMA-Factory/data/v2_ac_test_IDD_LL.json')
 
-json_files = [train_file, val_file] # test_file]
-splits = ['train', 'val', 'test']
+json_files = [val_file] # test_file]
+splits = ['val']
 for j,json_file in enumerate(json_files):
     split = splits[j]
     print("SPLIT:", split)
@@ -89,6 +89,6 @@ for j,json_file in enumerate(json_files):
     for r,result in enumerate(results):
         result['metric'] = corrects[r]
 
-    save_dir = 'vis/sep9/'
-    os.makedirs(save_dir, exist_ok=True)
-    save_html(results, save_dir + 'ac_' + split + '_Llamaall-bs128-ckpt12500.html')
+    #save_dir = 'vis/sep9/'
+    #os.makedirs(save_dir, exist_ok=True)
+    #save_html(results, save_dir + 'ac_' + split + '_Llamaall-bs128-ckpt12500.html')
