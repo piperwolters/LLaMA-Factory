@@ -141,6 +141,34 @@
       "system_tag": "system"
     }
   },
+  "v2_ac_train_HL-10000": {
+    "file_name": "v2_ac_train_HL-10000_TRAINING.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+  "preempt_v2_ac_train_HL-10000": {
+    "file_name": "/net/nfs.cirrascale/prior/piperw/v2_ac_train_HL-10000_TRAINING.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
 
   "v2_ac_train_LL-all": {
     "file_name": "v2_ac_train_LL-all_TRAINING.json",
