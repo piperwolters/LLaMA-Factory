@@ -11,8 +11,8 @@ lora_target: all
 lora_rank: 64
 
 ### dataset
-dataset: preempt_mm_v2_ac_train_LL-all
-eval_dataset: preempt_mm_v2_ac_val_LL 
+dataset: preempt_v2_ac_train_LL-all
+eval_dataset: preempt_v2_ac_val_LL
 template: vicuna
 cutoff_len: 4096
 overwrite_cache: true

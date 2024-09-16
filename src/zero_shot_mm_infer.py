@@ -9,14 +9,26 @@ from metric import compute_stepwise_accuracy
 from vis import save_html
 
 
-api_key = ''
+def add_string_after_instruction(original_string, string_to_add):
+    insertion_point = original_string.find("Instruction: \n")
+    if insertion_point == -1:
+        return original_string
+    instruction_end = original_string.find("\n", insertion_point + len("Instruction: \n")) + 1
+    updated_string = original_string[:instruction_end] + string_to_add + "\n" + original_string[instruction_end:]
+    return updated_string
+
+
 client = OpenAI(
             api_key=api_key,
             base_url="https://api.openai.com/v1",
         )
 
 # Load in a dataset json and format messages for the model api.
-json_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_ac_val_LL.json')
+train_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_train_LL_1000.json')
+val_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_val_LL.json')
+test_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_test_LL.json')
+
+json_file = val_file
 data = json.load(json_file)
 
 results = []
@@ -27,17 +39,6 @@ for i,dp in enumerate(data):
 
     messages = dp['messages']
     metadata = dp['metadata']
-
-    image_path = dp['images'][0]
-    image = Image.open(image_path)
-    image = image.convert('RGB')
-    image = image.resize((448, 448))  # Resize to a smaller resolution
-    image_buffer = io.BytesIO()
-    image.save(image_buffer, format="JPEG")
-    image_data = image_buffer.getvalue()
-    image_data = base64.b64encode(image_data).decode('utf-8')
-    #image_file = open(image_path, 'rb')
-    #image_data = image_file.read()
 
     dp_idx = str(metadata['dp_idx'])
     datapath = '/data/piperw/data/osagent/unified/android_control_III/val/' + dp_idx + '/'
@@ -55,13 +56,14 @@ for i,dp in enumerate(data):
     targets.append(target)
 
     # Remove the target action from the prompt during inference.
-    #messages = [m for m in messages if not (m.get("role") == "assistant")]
-    messages = [{"role": "user", "content": image_data, " type": "image/png"}]
-    #messages.append({"role": "user", "content": image_data, " type": "image/png"})
+    messages = [m for m in messages if not (m.get("role") == "assistant")]
+
+    # Optionally add more content to the text input 
+    messages[1]['content'][0]['text'] = add_string_after_instruction(messages[1]['content'][0]['text'], "Please output a single action and be as precise as possible.")
 
     chat_response = client.chat.completions.create(
         #model="llava-hf/llava-1.5-7b-hf",
-        model="gpt-4o-mini",
+        model="gpt-4o",
         messages=messages,
         temperature=0.0,
         max_tokens=20
@@ -69,6 +71,8 @@ for i,dp in enumerate(data):
 
     output = chat_response.choices[0].message.content
     outputs.append(output)
+
+    print("output:", output, " & gt:", target)
 
     result = {
         'target_action': target,
@@ -82,8 +86,8 @@ for i,dp in enumerate(data):
     }
     results.append(result)
   
-    if len(results) == 100:
-        break
+    #if len(results) == 100:
+    #    break
 
 accuracy, corrects = compute_stepwise_accuracy(targets, outputs, target_bb_centers)
 print("Step-wise accuracy using centers:", accuracy)
@@ -94,4 +98,4 @@ print("Step-wise accuracy using smallest:", accuracy)
 for r,result in enumerate(results):
     result['metric'] = corrects[r]
 
-save_html(results, 'aug27_gpt4omini_val100_justtext.html')
+#save_html(results, 'aug27_gpt4omini_val100_justtext.html')

@@ -1,4 +1,91 @@
 {
+  "mm_v2_ac_train_LL_all": {
+    "file_name": "mm_v2_ac_train_LL_all.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+  "preempt_mm_v2_ac_train_LL_all": {
+    "file_name": "/net/nfs.cirrascale/prior/piperw/mm_v2_ac_train_LL_all.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+
+  "mm_v2_ac_train_HL_all": {
+    "file_name": "mm_v2_ac_train_HL_all.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+  "preempt_mm_v2_ac_train_HL_all": {
+    "file_name": "/net/nfs.cirrascale/prior/piperw/mm_v2_ac_train_HL_all.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+
+  "preempt_mm_v2_ac_val_LL": {
+    "file_name": "/net/nfs.cirrascale/prior/piperw/mm_v2_ac_val_LL.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+  "preempt_mm_v2_ac_val_HL": {
+    "file_name": "/net/nfs.cirrascale/prior/piperw/mm_v2_ac_val_HL.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+
   "v2_ac_train_LL-100": {
     "file_name": "v2_ac_train_LL-100_TRAINING.json",
     "formatting": "sharegpt",
