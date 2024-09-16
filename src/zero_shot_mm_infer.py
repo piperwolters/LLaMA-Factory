@@ -17,6 +17,16 @@ def add_string_after_instruction(original_string, string_to_add):
     updated_string = original_string[:instruction_end] + string_to_add + "\n" + original_string[instruction_end:]
     return updated_string
 
+def remove_screen_description(original_string):
+    start_of_section = original_string.find("# Screen Description: \n")
+    if start_of_section == -1:
+        return original_string
+    start_of_instruction = original_string.find("# Instruction", start_of_section)
+    if start_of_instruction == -1:
+        return original_string
+    updated_string = original_string[:start_of_section] + original_string[start_of_instruction:]
+    return updated_string
+
 
 client = OpenAI(
             api_key=api_key,
@@ -25,8 +35,8 @@ client = OpenAI(
 
 # Load in a dataset json and format messages for the model api.
 train_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_train_LL_1000.json')
-val_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_val_LL.json')
-test_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_test_LL.json')
+val_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_val_HL.json')
+test_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_test_HL.json')
 
 json_file = val_file
 data = json.load(json_file)
@@ -60,6 +70,7 @@ for i,dp in enumerate(data):
 
     # Optionally add more content to the text input 
     messages[1]['content'][0]['text'] = add_string_after_instruction(messages[1]['content'][0]['text'], "Please output a single action and be as precise as possible.")
+    messages[1]['content'][0]['text'] = remove_screen_description(messages[1]['content'][0]['text'])
 
     chat_response = client.chat.completions.create(
         #model="llava-hf/llava-1.5-7b-hf",
