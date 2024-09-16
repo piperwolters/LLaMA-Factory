@@ -2,11 +2,31 @@ import os
 import io
 import json
 import base64
+import vertexai
 from PIL import Image
 from openai import OpenAI
+from google.auth import default, transport
 
 from metric import compute_stepwise_accuracy
 from vis import save_html
+
+
+# TODO(developer): Update and un-comment below lines
+project_id = "ai2-vision"
+location = "us-west1"
+
+vertexai.init(project=project_id, location=location)
+
+# Programmatically get an access token
+credentials, _ = default(scopes=["https://www.googleapis.com/auth/cloud-platform"])
+auth_request = transport.requests.Request()
+credentials.refresh(auth_request)
+
+# OpenAI Client
+client = OpenAI(
+    base_url=f"https://{location}-aiplatform.googleapis.com/v1beta1/projects/{project_id}/locations/{location}/endpoints/openapi",
+    api_key=credentials.token,
+)
 
 
 def add_string_after_instruction(original_string, string_to_add):
@@ -27,15 +47,11 @@ def remove_screen_description(original_string):
     updated_string = original_string[:start_of_section] + original_string[start_of_instruction:]
     return updated_string
 
-client = OpenAI(
-            api_key=api_key,
-            base_url="https://api.openai.com/v1",
-        )
 
 # Load in a dataset json and format messages for the model api.
 #train_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_train_LL_1000.json')
 #val_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_val_LL.json')
-test_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_test_LL.json')
+test_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_test_HL.json')
 
 json_file = test_file
 data = json.load(json_file)
@@ -73,7 +89,7 @@ for i,dp in enumerate(data):
     #messages[1]['content'] = [c for c in messages[1]['content'] if not (c.get("type") == "image_url")]  # code to remove image from input
 
     chat_response = client.chat.completions.create(
-        model="gpt-4o",
+        model="google/gemini-1.5-pro-001",
         messages=messages,
         temperature=0.0,
         max_tokens=20
