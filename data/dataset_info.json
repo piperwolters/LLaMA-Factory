@@ -1,5 +1,5 @@
 {
-  "mm_v2_ac_train_LL_all": {
+  "mm_v2_ac_train_LL-all": {
     "file_name": "mm_v2_ac_train_LL_all.json",
     "formatting": "sharegpt",
     "columns": {
@@ -13,7 +13,7 @@
       "system_tag": "system"
     }
   },
-  "preempt_mm_v2_ac_train-LL_all": {
+  "preempt_mm_v2_ac_train_LL-all": {
     "file_name": "/net/nfs.cirrascale/prior/piperw/mm_v2_ac_train_LL_all.json",
     "formatting": "sharegpt",
     "columns": {
@@ -28,7 +28,7 @@
     }
   },
 
-  "mm_v2_ac_train_HL_all": {
+  "mm_v2_ac_train_HL-all": {
     "file_name": "mm_v2_ac_train_HL_all.json",
     "formatting": "sharegpt",
     "columns": {
@@ -42,7 +42,7 @@
       "system_tag": "system"
     }
   },
-  "preempt_mm_v2_ac_train-HL_all": {
+  "preempt_mm_v2_ac_train_HL-all": {
     "file_name": "/net/nfs.cirrascale/prior/piperw/mm_v2_ac_train_HL_all.json",
     "formatting": "sharegpt",
     "columns": {
