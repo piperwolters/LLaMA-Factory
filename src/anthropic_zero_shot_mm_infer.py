@@ -3,7 +3,7 @@ import io
 import json
 import base64
 from PIL import Image
-from openai import OpenAI
+from anthropic import Anthropic
 
 from metric import compute_stepwise_accuracy
 from vis import save_html
@@ -28,17 +28,15 @@ def remove_screen_description(original_string):
     return updated_string
 
 
-client = OpenAI(
-            api_key=api_key,
-            base_url="https://api.openai.com/v1",
-        )
+client = Anthropic(api_key=api_key)
+
 
 # Load in a dataset json and format messages for the model api.
-train_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_train_LL_1000.json')
-val_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_val_LL.json')
+#train_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_train_LL_1000.json')
+#val_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_val_LL.json')
 test_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_test_LL.json')
 
-json_file = val_file
+json_file = test_file
 data = json.load(json_file)
 
 results = []
@@ -51,8 +49,16 @@ for i,dp in enumerate(data):
     metadata = dp['metadata']
 
     dp_idx = str(metadata['dp_idx'])
-    datapath = '/data/piperw/data/osagent/unified/android_control_III/val/' + dp_idx + '/'
+    datapath = '/data/piperw/data/osagent/unified/android_control_III/test/' + dp_idx + '/'
     screenshot = os.path.join(datapath, 'start_state.png')
+
+    with Image.open(screenshot) as img:
+        #img = img.resize((896,896))
+        img = img.convert('RGB')
+        buffered = io.BytesIO()
+        img.save(buffered, format="JPEG")
+        img_bytes = buffered.getvalue()
+        base64_image = base64.b64encode(img_bytes).decode('utf-8')
 
     dim = metadata['dim']
     reduced_a11y = metadata['a11y']
@@ -65,23 +71,45 @@ for i,dp in enumerate(data):
     target_bb_smallests.append(target_bb_smallest)
     targets.append(target)
 
+    #system_message = [m for m in messages if m.get("role") == "system"][0]
+
     # Remove the target action from the prompt during inference.
     messages = [m for m in messages if not (m.get("role") == "assistant")]
+    messages = [m for m in messages if not (m.get("role") == "system")]
 
     # Optionally add more content to the text input 
-    messages[1]['content'][0]['text'] = add_string_after_instruction(messages[1]['content'][0]['text'], "Please output a single action and be as precise as possible.")
-    #messages[1]['content'][0]['text'] = remove_screen_description(messages[1]['content'][0]['text'])  # code to remove a11y from input 
+    messages[0]['content'][0]['text'] = add_string_after_instruction(messages[0]['content'][0]['text'], "Please output a single action and nothing else.")
+    messages[0]['content'][0]['text'] = remove_screen_description(messages[0]['content'][0]['text'])  # code to remove a11y from input 
     #messages[1]['content'] = [c for c in messages[1]['content'] if not (c.get("type") == "image_url")]  # code to remove image from input
+    #messages[0]['content'][1]['type'] = 'image'
 
-    chat_response = client.chat.completions.create(
-        #model="llava-hf/llava-1.5-7b-hf",
-        model="gpt-4o",
-        messages=messages,
+    new_messages = {
+        "role": "user", 
+        "content": [{
+            "type": "image",
+            "source": {
+                "type": "base64",
+                "media_type": "image/jpeg",
+                "data": base64_image
+                #"data": messages[0]['content'][1]['image_url']['url'].replace('data:image/jpeg;base64,', ''),
+                }
+            },
+            {
+            "type": "text", "text": messages[0]['content'][0]['text']
+            }
+        ]
+    }
+
+
+    chat_response = client.messages.create(
+        model="claude-3-opus-20240229",
+        #system=system_message,
+        messages=[new_messages],
         temperature=0.0,
         max_tokens=20
     )
 
-    output = chat_response.choices[0].message.content
+    output = chat_response.content[0].text
     outputs.append(output)
 
     print("output:", output, " & gt:", target)
