@@ -1,4 +1,33 @@
 {
+  "sep16llava_mm_v2_ac_train_LL-all": {
+    "file_name": "sep16-llava-train-LL_TRAINING.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+  "sep16llava_mm_v2_ac_val_LL": {
+    "file_name": "sep16-llava-val-LL_TRAINING.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "messages"
+    },
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
+
   "mm_v2_ac_train_LL-all": {
     "file_name": "mm_v2_ac_train_LL_all_TRAINING.json",
     "formatting": "sharegpt",
