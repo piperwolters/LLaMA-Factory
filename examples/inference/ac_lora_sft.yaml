@@ -1,4 +1,4 @@
 model_name_or_path: meta-llama/Meta-Llama-3-8B-Instruct
-adapter_name_or_path: /data/piperw/projects/LLaMA-Factory/saves/sep13_ac_train_HL-10000_bs64/checkpoint-15000
+adapter_name_or_path: /data/piperw/projects/LLaMA-Factory/saves/sep13_ac_train_HL-10000_bs64/checkpoint-25000
 template: llama3
 finetuning_type: lora
