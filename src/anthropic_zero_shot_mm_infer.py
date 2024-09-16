@@ -34,7 +34,7 @@ client = Anthropic(api_key=api_key)
 # Load in a dataset json and format messages for the model api.
 #train_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_train_LL_1000.json')
 #val_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_val_LL.json')
-test_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_test_LL.json')
+test_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_test_HL.json')
 
 json_file = test_file
 data = json.load(json_file)
@@ -81,7 +81,6 @@ for i,dp in enumerate(data):
     messages[0]['content'][0]['text'] = add_string_after_instruction(messages[0]['content'][0]['text'], "Please output a single action and nothing else.")
     messages[0]['content'][0]['text'] = remove_screen_description(messages[0]['content'][0]['text'])  # code to remove a11y from input 
     #messages[1]['content'] = [c for c in messages[1]['content'] if not (c.get("type") == "image_url")]  # code to remove image from input
-    #messages[0]['content'][1]['type'] = 'image'
 
     new_messages = {
         "role": "user", 
