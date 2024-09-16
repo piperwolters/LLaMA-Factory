@@ -11,15 +11,15 @@ lora_target: all
 lora_rank: 64
 
 ### dataset
-dataset: preempt_v2_ac_train_LL-all
-eval_dataset: preempt_v2_ac_val_LL
+dataset: preempt_mm_v2_ac_train_HL-all
+eval_dataset: preempt_mm_v2_ac_val_HL
 template: vicuna
 cutoff_len: 4096
 overwrite_cache: true
 preprocessing_num_workers: 16
 
 ### output
-output_dir: /results/saves/sep16_llava_ac_train_LL-all_bs64/  # make sure to prefix /results when running with gantry
+output_dir: /results/saves/sep16_llava_ac_train_HL-all_bs64/  # make sure to prefix /results when running with gantry
 logging_steps: 10
 save_steps: 100
 plot_loss: true
@@ -44,6 +44,6 @@ eval_strategy: steps
 eval_steps: 100
 
 report_to: wandb
-run_name: sep16_llava_ac_train_LL-all_bs64
+run_name: sep16_llava_ac_train_HL-all_bs64
 
 
