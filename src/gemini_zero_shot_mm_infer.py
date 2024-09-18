@@ -1,6 +1,7 @@
 import os
 import io
 import json
+import time
 import base64
 import vertexai
 from PIL import Image
@@ -52,8 +53,9 @@ def remove_screen_description(original_string):
 #train_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_train_LL_1000.json')
 val_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_val_LL.json')
 test_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_test_LL.json')
+split = 'test'
 
-json_file = val_file
+json_file = test_file
 data = json.load(json_file)
 
 results = []
@@ -66,7 +68,7 @@ for i,dp in enumerate(data):
     metadata = dp['metadata']
 
     dp_idx = str(metadata['dp_idx'])
-    datapath = '/data/piperw/data/osagent/unified/android_control_III/val/' + dp_idx + '/'
+    datapath = '/data/piperw/data/osagent/unified/android_control_III/' + split + '/' + dp_idx + '/'
     screenshot = os.path.join(datapath, 'start_state.png')
 
     dim = metadata['dim']
@@ -88,12 +90,17 @@ for i,dp in enumerate(data):
     messages[1]['content'][0]['text'] = remove_screen_description(messages[1]['content'][0]['text'])  # code to remove a11y from input 
     #messages[1]['content'] = [c for c in messages[1]['content'] if not (c.get("type") == "image_url")]  # code to remove image from input
 
-    chat_response = client.chat.completions.create(
-        model="google/gemini-1.5-pro-001",
-        messages=messages,
-        temperature=0.0,
-        max_tokens=20
-    )
+    while True:
+        try:
+            chat_response = client.chat.completions.create(
+                model="google/gemini-1.5-pro-001",
+                messages=messages,
+                temperature=0.0,
+                max_tokens=20
+            )
+            break
+        except:
+            time.sleep(1)
 
     try:
         output = chat_response.choices[0].message.content
