@@ -35,7 +35,7 @@ client = OpenAI(
 # Load in a dataset json and format messages for the model api.
 #train_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_train_LL_1000.json')
 #val_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_val_LL.json')
-test_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_test_LL.json')
+test_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_test_HL.json')
 
 json_file = test_file
 data = json.load(json_file)
@@ -50,7 +50,7 @@ for i,dp in enumerate(data):
     metadata = dp['metadata']
 
     dp_idx = str(metadata['dp_idx'])
-    datapath = '/data/piperw/data/osagent/unified/android_control_III/val/' + dp_idx + '/'
+    datapath = '/data/piperw/data/osagent/unified/android_control_III/test/' + dp_idx + '/'
     screenshot = os.path.join(datapath, 'start_state.png')
 
     dim = metadata['dim']
@@ -69,11 +69,11 @@ for i,dp in enumerate(data):
 
     # Optionally add more content to the text input 
     messages[1]['content'][0]['text'] = add_string_after_instruction(messages[1]['content'][0]['text'], "Please output a single action and nothing else.")
-    messages[1]['content'][0]['text'] = remove_screen_description(messages[1]['content'][0]['text'])  # code to remove a11y from input 
-    #messages[1]['content'] = [c for c in messages[1]['content'] if not (c.get("type") == "image_url")]  # code to remove image from input
+    #messages[1]['content'][0]['text'] = remove_screen_description(messages[1]['content'][0]['text'])  # code to remove a11y from input 
+    messages[1]['content'] = [c for c in messages[1]['content'] if not (c.get("type") == "image_url")]  # code to remove image from input
 
     chat_response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-4o",  # gpt-4o & gpt-4-turbo-2024-04-09
         messages=messages,
         temperature=0.0,
         max_tokens=20
