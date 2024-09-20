@@ -37,7 +37,7 @@ def remove_screen_description(original_string):
 # Load in a dataset json and format messages for the model api.
 #train_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_train_LL_1000.json')
 val_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_val_HL.json')
-test_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_test_LL.json')
+test_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_test_HL.json')
 
 json_file = test_file
 data = json.load(json_file)

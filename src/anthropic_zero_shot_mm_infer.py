@@ -33,7 +33,7 @@ client = Anthropic(api_key=api_key)
 # Load in a dataset json and format messages for the model api.
 #train_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_train_LL_1000.json')
 #val_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_val_LL.json')
-test_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_test_HL.json')
+test_file = open('/data/piperw/projects/LLaMA-Factory/data/mm_v2_ac_test_LL.json')
 
 json_file = test_file
 data = json.load(json_file)
@@ -99,8 +99,8 @@ for i,dp in enumerate(data):
 
 
     chat_response = client.messages.create(
+        #model="claude-3-opus-20240229",
         model="claude-3-opus-20240229",
-        #system=system_message,
         messages=[new_messages],
         temperature=0.0,
         max_tokens=20
